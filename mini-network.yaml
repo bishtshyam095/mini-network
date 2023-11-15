@@ -107,8 +107,25 @@ Resources:
     Type: 'AWS::EC2::Instance'
     Properties:
       InstanceType: 't2.micro'
-      ImageId: 'ami-093467ec28ae4fe03'  # Replace with your AMI ID
+      ImageId: 'ami-0230bd60aa48260c6'  # Replace with your AMI ID
       SubnetId: !Ref PublicSubnet
       Tags:
         - Key: Name
-          Value: 'DummyInstance'   
+          Value: 'DummyInstance'
+
+  JumpBoxSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: 'Security group for the Bastion host'
+      VpcId: !Ref L00179095VPC
+
+  JumpBox:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: 't2.micro'
+      ImageId: 'ami-0230bd60aa48260c6'  # Replace with your AMI ID
+      SubnetId: !Ref PublicSubnet
+      SecurityGroupIds: [!Ref JumpBoxSecurityGroup]
+      Tags:
+        - Key: Name
+          Value: 'JumpBox'   
