@@ -26,10 +26,5 @@
   Designed a basic plan to solve business problem. 
   ![Local Image](Assets/plan-overview.png)
 
-# Sample basic plan
-  ---
-  Result achieved: .
-  ![Local Image](designer_output/NAT_gateway_Route_table.png)
-
   ---
 
