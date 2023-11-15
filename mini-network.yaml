@@ -84,4 +84,21 @@ Resources:
       SecurityGroupIds: [!Ref BackendSecurityGroup]
       Tags:
         - Key: Name
-          Value: 'BackendInstance'      
+          Value: 'BackendInstance'  
+
+  DatabaseSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: 'Security group for the database instance'
+      VpcId: !Ref L00179095VPC
+
+  DatabaseInstance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: 't2.micro'
+      ImageId: 'ami-0230bd60aa48260c6'  # Replace with your AMI ID
+      SubnetId: !Ref PrivateSubnet
+      SecurityGroupIds: [!Ref DatabaseSecurityGroup]
+      Tags:
+        - Key: Name
+          Value: 'DatabaseInstance'    
