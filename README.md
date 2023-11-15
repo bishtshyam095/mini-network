@@ -4,6 +4,11 @@
     Designer output images are generated with the help of code written
   - Outputs images are generated for learning purpose, and are generated after the code execution.
   ---
+
+# Misc
+  Used this website as resource:
+    - https://cidr.xyz/
+
 # Mini-network
   ---
   - The Business Problem
