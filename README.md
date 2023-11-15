@@ -1,4 +1,4 @@
-# mini-network
+# Mini-network
   ---
   - The Business Problem
     ---
@@ -6,11 +6,12 @@
 
 # Learning Outcomes:
   ---
-    This assignment focuses on bringing IaC concepts together in a business solution via a mini-network.
+  This assignment focuses on bringing IaC concepts together in a business solution via a mini-network.
 
 
 
 # Sample basic plan
+  ---
   ![Local Image](Assets/plan-overview.png)
 
 
