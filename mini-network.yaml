@@ -101,4 +101,14 @@ Resources:
       SecurityGroupIds: [!Ref DatabaseSecurityGroup]
       Tags:
         - Key: Name
-          Value: 'DatabaseInstance'    
+          Value: 'DatabaseInstance' 
+
+  DummyInstance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: 't2.micro'
+      ImageId: 'ami-093467ec28ae4fe03'  # Replace with your AMI ID
+      SubnetId: !Ref PublicSubnet
+      Tags:
+        - Key: Name
+          Value: 'DummyInstance'   
