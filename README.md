@@ -1,3 +1,8 @@
+# Note
+  ---
+  # Designer output images are generated with the help of code written
+  - Outputs images are generated for learning purpose, and are generated after the code execution.
+
 # Mini-network
   ---
   - The Business Problem
@@ -16,4 +21,3 @@
   ![Local Image](Assets/plan-overview.png)
 
   ---
-  
