@@ -129,3 +129,18 @@ Resources:
       Tags:
         - Key: Name
           Value: 'JumpBox'   
+  
+  # Internet gateway ---
+
+  InternetGateway:
+    Type: 'AWS::EC2::InternetGateway'
+    Properties:
+      Tags:
+        - Key: Name
+          Value: 'InternetGateway'
+
+  AttachGateway:
+    Type: 'AWS::EC2::VPCGatewayAttachment'
+    Properties:
+      VpcId: !Ref L00179095VPC
+      InternetGatewayId: !Ref InternetGateway
