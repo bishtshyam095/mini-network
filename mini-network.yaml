@@ -10,6 +10,16 @@ Parameters:
     Type: String
     Default: '10.0.0.0/16'
     Description: 'CIDR block for the VPC'
+  
+  PublicSubnetCIDR:
+    Type: String
+    Default: '10.0.1.0/24'
+    Description: 'CIDR block for the public subnet'
+
+  PrivateSubnetCIDR:
+    Type: String
+    Default: '10.0.2.0/24'
+    Description: 'CIDR block for the private subnet'
 
 Resources:
   VPCBlock:
@@ -21,3 +31,24 @@ Resources:
       Tags:
         - Key: Name
           Value: 'MyVPC'
+
+PublicSubnet:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref VPCBlock
+      CidrBlock: !Ref PublicSubnetCIDR
+      AvailabilityZone: 'us-east-1a'
+      MapPublicIpOnLaunch: 'true'
+      Tags:
+        - Key: Name
+          Value: 'PublicSubnet'
+
+PrivateSubnet:
+  Type: 'AWS::EC2::Subnet'
+  Properties:
+    VpcId: !Ref VPCBlock
+    CidrBlock: !Ref PrivateSubnetCIDR
+    AvailabilityZone: 'us-east-1b'
+    Tags:
+      - Key: Name
+        Value: 'PrivateSubnet'

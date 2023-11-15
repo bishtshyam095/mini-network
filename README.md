@@ -12,7 +12,8 @@
 
 # Sample basic plan
   ---
+  Designed a basic plan to solve business problem. 
   ![Local Image](Assets/plan-overview.png)
 
-
-
+  ---
+  
