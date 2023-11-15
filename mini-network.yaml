@@ -51,3 +51,21 @@ Resources:
       Tags:
         - Key: Name
           Value: 'PrivateSubnet'
+  
+  FrontendSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: 'Security group for the frontend instance'
+      VpcId: !Ref L00179095VPC
+  
+  FrontendInstance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: 't2.micro'
+      ImageId: 'ami-0230bd60aa48260c6'  # Replace with your AMI ID
+      SubnetId: !Ref PublicSubnet
+      SecurityGroupIds: [!Ref FrontendSecurityGroup]
+      Tags:
+        - Key: Name
+          Value: 'FrontendInstance'
+      
