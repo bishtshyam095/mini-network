@@ -21,7 +21,7 @@ Parameters:
     Description: 'CIDR block for the private subnet'
 
 Resources:
-  MyVPC:
+  L00179095VPC:
     Type: 'AWS::EC2::VPC'
     Properties:
       CidrBlock: !Ref VpcCidr
@@ -29,12 +29,12 @@ Resources:
       EnableDnsHostnames: 'true'
       Tags:
         - Key: Name
-          Value: 'MyVPC'
+          Value: 'L00179095VPC'
 
   PublicSubnet:
     Type: 'AWS::EC2::Subnet'
     Properties:
-      VpcId: !Ref MyVPC
+      VpcId: !Ref L00179095VPC
       CidrBlock: !Ref PublicSubnetCidr
       AvailabilityZone: 'us-east-1a'
       MapPublicIpOnLaunch: 'true'
@@ -45,154 +45,9 @@ Resources:
   PrivateSubnet:
     Type: 'AWS::EC2::Subnet'
     Properties:
-      VpcId: !Ref MyVPC
+      VpcId: !Ref L00179095VPC
       CidrBlock: !Ref PrivateSubnetCidr
       AvailabilityZone: 'us-east-1b'
       Tags:
         - Key: Name
           Value: 'PrivateSubnet'
-
-  InternetGateway:
-    Type: 'AWS::EC2::InternetGateway'
-    Properties:
-      Tags:
-        - Key: Name
-          Value: 'InternetGateway'
-
-  AttachGateway:
-    Type: 'AWS::EC2::VPCGatewayAttachment'
-    Properties:
-      VpcId: !Ref MyVPC
-      InternetGatewayId: !Ref InternetGateway
-
-  RouteTable:
-    Type: 'AWS::EC2::RouteTable'
-    Properties:
-      VpcId: !Ref MyVPC
-      Tags:
-        - Key: Name
-          Value: 'PublicRouteTable'
-
-  PublicRoute:
-    Type: 'AWS::EC2::Route'
-    DependsOn: AttachGateway
-    Properties:
-      RouteTableId: !Ref RouteTable
-      DestinationCidrBlock: '0.0.0.0/0'
-      GatewayId: !Ref InternetGateway
-
-  PublicSubnetRouteTableAssociation:
-    Type: 'AWS::EC2::SubnetRouteTableAssociation'
-    Properties:
-      SubnetId: !Ref PublicSubnet
-      RouteTableId: !Ref RouteTable
-
-  FrontendSecurityGroup:
-    Type: 'AWS::EC2::SecurityGroup'
-    Properties:
-      GroupDescription: 'Security group for the frontend instance'
-      VpcId: !Ref MyVPC
-
-  BastionHostSecurityGroup:
-    Type: 'AWS::EC2::SecurityGroup'
-    Properties:
-      GroupDescription: 'Security group for the Bastion host'
-      VpcId: !Ref MyVPC
-
-  FrontendInstance:
-    Type: 'AWS::EC2::Instance'
-    Properties:
-      InstanceType: 't2.micro'
-      ImageId: 'ami-xxxxxxxxxxxxxxxxx'  # Replace with your AMI ID
-      SubnetId: !Ref PublicSubnet
-      SecurityGroupIds: [!Ref FrontendSecurityGroup]
-      Tags:
-        - Key: Name
-          Value: 'FrontendInstance'
-
-  BastionHost:
-    Type: 'AWS::EC2::Instance'
-    Properties:
-      InstanceType: 't2.micro'
-      ImageId: 'ami-xxxxxxxxxxxxxxxxx'  # Replace with your AMI ID
-      SubnetId: !Ref PublicSubnet
-      SecurityGroupIds: [!Ref BastionHostSecurityGroup]
-      Tags:
-        - Key: Name
-          Value: 'BastionHost'
-
-  DummyInstance:
-    Type: 'AWS::EC2::Instance'
-    Properties:
-      InstanceType: 't2.micro'
-      ImageId: 'ami-xxxxxxxxxxxxxxxxx'  # Replace with your AMI ID
-      SubnetId: !Ref PublicSubnet
-      Tags:
-        - Key: Name
-          Value: 'DummyInstance'
-
-  BackendSecurityGroup:
-    Type: 'AWS::EC2::SecurityGroup'
-    Properties:
-      GroupDescription: 'Security group for the backend instance'
-      VpcId: !Ref MyVPC
-
-  BackendInstance:
-    Type: 'AWS::EC2::Instance'
-    Properties:
-      InstanceType: 't2.micro'
-      ImageId: 'ami-xxxxxxxxxxxxxxxxx'  # Replace with your AMI ID
-      SubnetId: !Ref PrivateSubnet
-      SecurityGroupIds: [!Ref BackendSecurityGroup]
-      Tags:
-        - Key: Name
-          Value: 'BackendInstance'
-
-  DatabaseSecurityGroup:
-    Type: 'AWS::EC2::SecurityGroup'
-    Properties:
-      GroupDescription: 'Security group for the database instance'
-      VpcId: !Ref MyVPC
-
-  DatabaseInstance:
-    Type: 'AWS::EC2::Instance'
-    Properties:
-      InstanceType: 't2.micro'
-      ImageId: 'ami-xxxxxxxxxxxxxxxxx'  # Replace with your AMI ID
-      SubnetId: !Ref PrivateSubnet
-      SecurityGroupIds: [!Ref DatabaseSecurityGroup]
-      Tags:
-        - Key: Name
-          Value: 'DatabaseInstance'
-
-  NatGatewayEIP:
-    Type: 'AWS::EC2::EIP'
-    Properties:
-      Domain: 'vpc'
-
-  NatGateway:
-    Type: 'AWS::EC2::NatGateway'
-    Properties:
-      AllocationId: !GetAtt NatGatewayEIP.AllocationId
-      SubnetId: !Ref PublicSubnet
-
-  PrivateRouteTable:
-    Type: 'AWS::EC2::RouteTable'
-    Properties:
-      VpcId: !Ref MyVPC
-      Tags:
-        - Key: Name
-          Value: 'PrivateRouteTable'
-
-  PrivateRoute:
-    Type: 'AWS::EC2::Route'
-    Properties:
-      RouteTableId: !Ref PrivateRouteTable
-      DestinationCidrBlock: '0.0.0.0/0'
-      NatGatewayId: !Ref NatGateway
-
-  PrivateSubnetRouteTableAssociation:
-    Type: 'AWS::EC2::SubnetRouteTableAssociation'
-    Properties:
-      SubnetId: !Ref PrivateSubnet
-      RouteTableId: !Ref PrivateRouteTable
