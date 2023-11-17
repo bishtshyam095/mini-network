@@ -40,14 +40,14 @@ Resources:
       MapPublicIpOnLaunch: 'true'
       Tags:
         - Key: Name
-          Value: 'PublicSubnet'
+          Value: 'PublicSubnet' 
 
   PrivateSubnet:
     Type: 'AWS::EC2::Subnet'
     Properties:
       VpcId: !Ref L00179095VPC
       CidrBlock: !Ref PrivateSubnetCidr
-      AvailabilityZone: 'us-east-1b'
+      AvailabilityZone: 'us-east-1a'
       Tags:
         - Key: Name
           Value: 'PrivateSubnet'
@@ -57,6 +57,11 @@ Resources:
     Properties:
       GroupDescription: 'Security group for the frontend instance'
       VpcId: !Ref L00179095VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0 
   
   FrontendInstance:
     Type: 'AWS::EC2::Instance'
@@ -64,6 +69,7 @@ Resources:
       InstanceType: 't2.micro'
       ImageId: 'ami-0230bd60aa48260c6'  # Replace with your AMI ID
       SubnetId: !Ref PublicSubnet
+      KeyName: 'l00179095KeyPair'
       SecurityGroupIds: [!Ref FrontendSecurityGroup]
       Tags:
         - Key: Name
@@ -82,6 +88,7 @@ Resources:
       ImageId: 'ami-0230bd60aa48260c6'  # Replace with your AMI ID
       SubnetId: !Ref PrivateSubnet
       SecurityGroupIds: [!Ref BackendSecurityGroup]
+      KeyName: 'l00179095KeyPair'
       Tags:
         - Key: Name
           Value: 'BackendInstance'  
@@ -118,6 +125,11 @@ Resources:
     Properties:
       GroupDescription: 'Security group for the Bastion host'
       VpcId: !Ref L00179095VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0 
 
   JumpBox:
     Type: 'AWS::EC2::Instance'
